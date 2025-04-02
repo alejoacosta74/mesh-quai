@@ -20,7 +20,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/coinbase/rosetta-ethereum/ethereum"
+	"github.com/coinbase/rosetta-ethereum/quai"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/ethereum/go-ethereum/params"
@@ -123,20 +123,20 @@ func LoadConfiguration() (*Configuration, error) {
 	switch networkValue {
 	case Mainnet:
 		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.MainnetNetwork,
+			Blockchain: quai.Blockchain,
+			Network:    quai.MainnetNetwork,
 		}
-		config.GenesisBlockIdentifier = ethereum.MainnetGenesisBlockIdentifier
+		config.GenesisBlockIdentifier = quai.MainnetGenesisBlockIdentifier
 		config.Params = params.MainnetChainConfig
-		config.GethArguments = ethereum.MainnetGethArguments
+		config.GethArguments = quai.MainnetGethArguments
 	case Testnet:
 		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.DevNetwork,
+			Blockchain: quai.Blockchain,
+			Network:    quai.DevNetwork,
 		}
 		config.GenesisBlockIdentifier = nil
 		config.Params = params.AllCliqueProtocolChanges
-		config.GethArguments = ethereum.DevGethArguments
+		config.GethArguments = quai.DevGethArguments
 	case "":
 		return nil, errors.New("NETWORK must be populated")
 	default:

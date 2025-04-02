@@ -22,8 +22,8 @@ import (
 	"testing"
 
 	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
 	mocks "github.com/coinbase/rosetta-ethereum/mocks/services"
+	"github.com/coinbase/rosetta-ethereum/quai"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/ethereum/go-ethereum/common"
@@ -52,8 +52,8 @@ func forceMarshalMap(t *testing.T, i interface{}) map[string]interface{} {
 
 func TestConstructionService(t *testing.T) {
 	networkIdentifier = &types.NetworkIdentifier{
-		Network:    ethereum.RopstenNetwork,
-		Blockchain: ethereum.Blockchain,
+		Network:    quai.MainnetNetwork,
+		Blockchain: quai.Blockchain,
 	}
 
 	cfg := &configuration.Configuration{
@@ -135,7 +135,7 @@ func TestConstructionService(t *testing.T) {
 		SuggestedFee: []*types.Amount{
 			{
 				Value:    "21000000000000",
-				Currency: ethereum.Currency,
+				Currency: quai.Currency,
 			},
 		},
 	}, metadataResponse)

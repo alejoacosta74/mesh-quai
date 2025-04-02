@@ -19,7 +19,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/coinbase/rosetta-ethereum/ethereum"
+	"github.com/coinbase/rosetta-ethereum/quai"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/ethereum/go-ethereum/params"
@@ -57,14 +57,14 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    ethereum.MainnetNetwork,
-					Blockchain: ethereum.Blockchain,
+					Network:    quai.MainnetNetwork,
+					Blockchain: quai.Blockchain,
 				},
 				Params:                 params.MainnetChainConfig,
-				GenesisBlockIdentifier: ethereum.MainnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: quai.MainnetGenesisBlockIdentifier,
 				Port:                   1000,
 				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.MainnetGethArguments,
+				GethArguments:          quai.MainnetGethArguments,
 				SkipGethAdmin:          false,
 			},
 		},
@@ -77,15 +77,15 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    ethereum.MainnetNetwork,
-					Blockchain: ethereum.Blockchain,
+					Network:    quai.MainnetNetwork,
+					Blockchain: quai.Blockchain,
 				},
 				Params:                 params.MainnetChainConfig,
-				GenesisBlockIdentifier: ethereum.MainnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: quai.MainnetGenesisBlockIdentifier,
 				Port:                   1000,
 				GethURL:                "http://blah",
 				RemoteGeth:             true,
-				GethArguments:          ethereum.MainnetGethArguments,
+				GethArguments:          quai.MainnetGethArguments,
 				SkipGethAdmin:          true,
 			},
 		},
@@ -97,14 +97,14 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    ethereum.DevNetwork,
-					Blockchain: ethereum.Blockchain,
+					Network:    quai.DevNetwork,
+					Blockchain: quai.Blockchain,
 				},
 				Params:                 params.AllCliqueProtocolChanges,
 				GenesisBlockIdentifier: nil,
 				Port:                   1000,
 				GethURL:                DefaultGethURL,
-				GethArguments:          ethereum.DevGethArguments,
+				GethArguments:          quai.DevGethArguments,
 				SkipGethAdmin:          true,
 			},
 		},

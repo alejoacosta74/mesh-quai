@@ -20,8 +20,8 @@ import (
 	"testing"
 
 	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
 	mocks "github.com/coinbase/rosetta-ethereum/mocks/services"
+	"github.com/coinbase/rosetta-ethereum/quai"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/stretchr/testify/assert"
@@ -93,7 +93,7 @@ func TestBlockService_Online(t *testing.T) {
 
 	t.Run("orphaned block", func(t *testing.T) {
 		pbIdentifier := types.ConstructPartialBlockIdentifier(block.BlockIdentifier)
-		mockClient.On("Block", ctx, pbIdentifier).Return(nil, ethereum.ErrBlockOrphaned).Once()
+		mockClient.On("Block", ctx, pbIdentifier).Return(nil, quai.ErrBlockOrphaned).Once()
 		b, err := servicer.Block(ctx, &types.BlockRequest{
 			BlockIdentifier: pbIdentifier,
 		})

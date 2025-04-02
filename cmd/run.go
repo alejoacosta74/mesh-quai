@@ -23,7 +23,6 @@ import (
 	"time"
 
 	"github.com/coinbase/rosetta-ethereum/configuration"
-	"github.com/coinbase/rosetta-ethereum/ethereum"
 	"github.com/coinbase/rosetta-ethereum/quai"
 	"github.com/coinbase/rosetta-ethereum/services"
 
@@ -67,11 +66,11 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	// The asserter automatically rejects incorrectly formatted
 	// requests.
 	asserter, err := asserter.NewServer(
-		ethereum.OperationTypes,
-		ethereum.HistoricalBalanceSupported,
+		quai.OperationTypes,
+		quai.HistoricalBalanceSupported,
 		[]*types.NetworkIdentifier{cfg.Network},
-		ethereum.CallMethods,
-		ethereum.IncludeMempoolCoins,
+		quai.CallMethods,
+		quai.IncludeMempoolCoins,
 		"",
 	)
 	if err != nil {
@@ -91,7 +90,7 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 		if !cfg.RemoteGeth {
 			logger.Debug("starting local Geth")
 			g.Go(func() error {
-				return ethereum.StartGeth(ctx, cfg.GethArguments, g)
+				return quai.StartGeth(ctx, cfg.GethArguments, g)
 			})
 		}
 
