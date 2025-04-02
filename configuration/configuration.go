@@ -42,15 +42,6 @@ const (
 	// Mainnet is the Ethereum Mainnet.
 	Mainnet string = "MAINNET"
 
-	// Ropsten is the Ethereum Ropsten testnet.
-	Ropsten string = "ROPSTEN"
-
-	// Rinkeby is the Ethereum Rinkeby testnet.
-	Rinkeby string = "RINKEBY"
-
-	// Goerli is the Ethereum Görli testnet.
-	Goerli string = "GOERLI"
-
 	// Testnet defaults to `Ropsten` for backwards compatibility.
 	Testnet string = "TESTNET"
 
@@ -76,10 +67,14 @@ const (
 	// running geth node.
 	GethEnv = "GETH"
 
+	QuaiEnv = "QUAI"
+
 	// DefaultGethURL is the default URL for
 	// a running geth node. This is used
 	// when GethEnv is not populated.
 	DefaultGethURL = "http://localhost:8545"
+
+	DefaultQuaiURL = "http://localhost:9200"
 
 	// SkipGethAdminEnv is an optional environment variable
 	// to skip geth `admin` calls which are typically not supported
@@ -97,6 +92,8 @@ type Configuration struct {
 	GenesisBlockIdentifier *types.BlockIdentifier
 	GethURL                string
 	RemoteGeth             bool
+	QuaiURL                string
+	RemoteQuai             bool
 	Port                   int
 	GethArguments          string
 	SkipGethAdmin          bool
@@ -132,30 +129,6 @@ func LoadConfiguration() (*Configuration, error) {
 		config.GenesisBlockIdentifier = ethereum.MainnetGenesisBlockIdentifier
 		config.Params = params.MainnetChainConfig
 		config.GethArguments = ethereum.MainnetGethArguments
-	case Ropsten:
-		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.RopstenNetwork,
-		}
-		config.GenesisBlockIdentifier = ethereum.RopstenGenesisBlockIdentifier
-		config.Params = params.RopstenChainConfig
-		config.GethArguments = ethereum.RopstenGethArguments
-	case Rinkeby:
-		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.RinkebyNetwork,
-		}
-		config.GenesisBlockIdentifier = ethereum.RinkebyGenesisBlockIdentifier
-		config.Params = params.RinkebyChainConfig
-		config.GethArguments = ethereum.RinkebyGethArguments
-	case Goerli:
-		config.Network = &types.NetworkIdentifier{
-			Blockchain: ethereum.Blockchain,
-			Network:    ethereum.GoerliNetwork,
-		}
-		config.GenesisBlockIdentifier = ethereum.GoerliGenesisBlockIdentifier
-		config.Params = params.GoerliChainConfig
-		config.GethArguments = ethereum.GoerliGethArguments
 	case Testnet:
 		config.Network = &types.NetworkIdentifier{
 			Blockchain: ethereum.Blockchain,
@@ -175,6 +148,13 @@ func LoadConfiguration() (*Configuration, error) {
 	if len(envGethURL) > 0 {
 		config.RemoteGeth = true
 		config.GethURL = envGethURL
+	}
+
+	config.QuaiURL = DefaultQuaiURL
+	envQuaiURL := os.Getenv(QuaiEnv)
+	if len(envQuaiURL) > 0 {
+		config.RemoteQuai = true
+		config.QuaiURL = envQuaiURL
 	}
 
 	config.SkipGethAdmin = false

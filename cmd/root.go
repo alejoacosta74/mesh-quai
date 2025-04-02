@@ -20,6 +20,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/alejoacosta74/go-logger"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -28,11 +29,16 @@ var (
 	rootCmd = &cobra.Command{
 		Use:   "rosetta-ethereum",
 		Short: "Ethereum implementation of the Rosetta API",
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			logger.SetLevel(logLevel)
+		},
 	}
 
 	// SignalReceived is set to true when a signal causes us to exit. This makes
 	// determining the error message to show on exit much more easy.
 	SignalReceived = false
+
+	logLevel = "info"
 )
 
 // Execute handles all invocations of the
@@ -44,6 +50,10 @@ func Execute() error {
 func init() {
 	rootCmd.AddCommand(runCmd)
 	rootCmd.AddCommand(utilsBootstrapCmd)
+
+	// add a flag to set the log level
+	rootCmd.PersistentFlags().StringVarP(&logLevel, "log-level", "l", "info", "log level")
+
 }
 
 // handleSignals handles OS signals so we can ensure we close database

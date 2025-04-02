@@ -1,0 +1,4 @@
+export MODE=ONLINE
+export NETWORK=MAINNET
+export PORT=8080
+export QUAI=http://192.168.4.248:9200

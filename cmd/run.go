@@ -24,8 +24,10 @@ import (
 
 	"github.com/coinbase/rosetta-ethereum/configuration"
 	"github.com/coinbase/rosetta-ethereum/ethereum"
+	"github.com/coinbase/rosetta-ethereum/quai"
 	"github.com/coinbase/rosetta-ethereum/services"
 
+	"github.com/alejoacosta74/go-logger"
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -75,6 +77,7 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return fmt.Errorf("%w: could not initialize server asserter", err)
 	}
+	logger.Debugf("asserter initialized for blockchain %s (network %s)", cfg.Network.Blockchain, cfg.Network.Network)
 
 	// Start required services
 	ctx := context.Background()
@@ -83,16 +86,17 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 
 	g, ctx := errgroup.WithContext(ctx)
 
-	var client *ethereum.Client
+	var client *quai.Client
 	if cfg.Mode == configuration.Online {
 		if !cfg.RemoteGeth {
+			logger.Debug("starting local Geth")
 			g.Go(func() error {
 				return ethereum.StartGeth(ctx, cfg.GethArguments, g)
 			})
 		}
 
 		var err error
-		client, err = ethereum.NewClient(cfg.GethURL, cfg.Params, cfg.SkipGethAdmin)
+		client, err = quai.NewClient(cfg.QuaiURL, cfg.Params, cfg.SkipGethAdmin)
 		if err != nil {
 			return fmt.Errorf("%w: cannot initialize ethereum client", err)
 		}
