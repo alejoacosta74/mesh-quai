@@ -108,6 +108,6 @@ coverage-local:
 mocks:
 	rm -rf mocks;
 	mockery --dir services --all --case underscore --outpkg services --output mocks/services;
-	mockery --dir ethereum --all --case underscore --outpkg ethereum --output mocks/ethereum;
+	mockery --dir quai --all --case underscore --outpkg quai --output mocks/quai;
 	${ADDLICENSE_INSTALL}
 	${ADDLICENCE_SCRIPT} .;
